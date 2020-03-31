@@ -9,6 +9,10 @@ const humanize = require('humanize-number')
 const bytes = require('bytes')
 const chalk = require('chalk')
 const util = require('util')
+const os = require('os')
+const fs = require('fs')
+
+var stream = ''
 
 /**
  * Expose logger.
@@ -35,22 +39,22 @@ const colorCodes = {
  */
 
 function dev (opts) {
+  var dirname = process.cwd().toString() + '/logs/';
+  console.log(typeof dirname)
+  function ensureDirectoryExistence(dirname) {
+    if (!fs.existsSync(dirname)) {
+      fs.mkdirSync(dirname);
+    }
+  }
+  ensureDirectoryExistence(dirname)
+  stream = fs.createWriteStream(dirname + 'log.log', {flags: 'a'} )
+
   // print to console helper.
   const print = (function () {
-    let transporter
-    if (typeof opts === 'function') {
-      transporter = opts
-    } else if (opts && opts.transporter) {
-      transporter = opts.transporter
-    }
-
     return function printFunc (...args) {
       const str = util.format(...args)
-      if (transporter) {
-        transporter(str, args)
-      } else {
-        console.log(...args)
-      }
+      stream.write(str + os.EOL)
+      console.log(...args)
     }
   }())
 
@@ -62,7 +66,18 @@ function dev (opts) {
       ' ' + chalk.gray('%s'),
     ctx.method,
     ctx.originalUrl)
-
+    ctx.logger = {
+      info: function(str){
+        var info = 'INFO: ' + str + os.EOL
+        stream.write(info)
+        console.log(info)
+      },
+      error: function(str){
+        var error = 'ERROR: ' + str + os.EOL
+        stream.write(error)
+        console.log(error)
+      }
+    }
     try {
       await next()
     } catch (err) {
@@ -135,13 +150,15 @@ function log (print, ctx, start, len, err, event) {
     ' ' + chalk.gray('%s') +
     ' ' + chalk[color]('%s') +
     ' ' + chalk.gray('%s') +
+    ' ' + chalk.gray('%s') +
     ' ' + chalk.gray('%s'),
   ctx.method,
   ctx.originalUrl,
   status,
   time(start),
-  length)
-}
+  length,
+  JSON.stringify(ctx.body)
+  )}
 
 /**
  * Show the response time in a human readable format.

@@ -42,5 +42,15 @@ module.exports = function (opts) {
     throw new Error('oh no')
   }))
 
+  app.use(_.get('/ctx-info', function (ctx) {
+    ctx.status = 200;
+    ctx.logger.info('Info log test')
+  }))
+  
+  app.use(_.get('/ctx-error', function (ctx) {
+    ctx.status = 200;
+    ctx.logger.error('Info log error')
+  }))
+
   return app
 }
