@@ -68,12 +68,12 @@ function dev (opts) {
     ctx.originalUrl)
     ctx.logger = {
       info: function(str){
-        var info = 'INFO: ' + str + os.EOL
+        var info = '  INFO: ' + str + os.EOL
         stream.write(info)
         console.log(info)
       },
       error: function(str){
-        var error = 'ERROR: ' + str + os.EOL
+        var error = ' ERROR: ' + str + os.EOL
         stream.write(error)
         console.log(error)
       }
@@ -145,7 +145,7 @@ function log (print, ctx, start, len, err, event) {
     : event === 'close' ? chalk.yellow('-x-')
       : chalk.gray('-->')
 
-  print('  ' + upstream +
+  print(upstream +
     ' ' + chalk.bold('%s') +
     ' ' + chalk.gray('%s') +
     ' ' + chalk[color]('%s') +

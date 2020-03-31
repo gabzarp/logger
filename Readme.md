@@ -14,7 +14,7 @@ $ npm install koa-ctx-logger
 ```
 
 ## README WIP
-Impoved version of [koa-logger](https://www.npmjs.com/package/koa-logger)
+Improved version of [koa-logger](https://www.npmjs.com/package/koa-logger)
 
 ## License
 
