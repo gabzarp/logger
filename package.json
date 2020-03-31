@@ -2,7 +2,7 @@
   "name": "koa-ctx-logger",
   "description": "Logging middleware for koa",
   "repository": "gabzarp/logger",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "keywords": [
     "koa",
     "middleware",
