@@ -61,7 +61,7 @@ function dev (opts) {
   return async function logger (ctx, next) {
     // request
     const start = ctx[Symbol.for('request-received.startTime')] ? ctx[Symbol.for('request-received.startTime')].getTime() : Date.now()
-    print('  ' + chalk.gray('<--') +
+    print(chalk.gray('<--') +
       ' ' + chalk.bold('%s') +
       ' ' + chalk.gray('%s'),
     ctx.method,
