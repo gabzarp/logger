@@ -3,8 +3,7 @@
 
 [![npm version][npm-image]][npm-url]
 
- Development style logger middleware for [koa](https://github.com/koajs/koa).  Compatible with [request-received](https://github.com/cabinjs/request-received).
-
+Improved version of [koa-logger](https://www.npmjs.com/package/koa-logger) that saves logs to a /logs/log file, sends ctx.body on logs and has logs functions that you can call inside your context. 
 
 
 ## Installation
@@ -13,8 +12,36 @@
 $ npm install koa-ctx-logger
 ```
 
-## README WIP
-Improved version of [koa-logger](https://www.npmjs.com/package/koa-logger)
+## How to use
+```js
+const logger = require('koa-ctx-logger');
+
+app.use(logger());
+```
+This will automatically log requests and responses in your console and in /logs/log.log file
+
+Log example:
+```js
+<-- PUT /send-lead
+--> PUT /send-lead 500 111ms 66b {"shopId":["shopId is required but was either undefined or null"]}
+```
+
+To call log service in another part of your application simply call logger in your ctx:
+```js
+ctx.logger.info('your string')
+```
+To get log:
+```js
+INFO: your string
+```
+Or:
+```js
+ctx.logger.error('your string')
+```
+To get:
+```js
+ERROR: your string
+```
 
 ## License
 
